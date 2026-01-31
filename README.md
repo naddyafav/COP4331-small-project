@@ -1,5 +1,4 @@
 # COP4331-small-project
-
 ## API Documentation:
 ### Search Endpoint:
 Needs the following information to be sent:
