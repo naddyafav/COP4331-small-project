@@ -1,6 +1,9 @@
 <?php
 
 $inData = getRequestInfo();
+
+$firstName = "%" . $inData["firstName"] . "%";
+$lastName = "%" . $inData["lastName"] . "%";
 $searchResults = [];
 
 $conn = new mysqli("localhost", "AllAccess", "SmallProject1", "contact_manager");
@@ -11,14 +14,13 @@ if ($conn->connect_error)
 else
 {
     $stmt = $conn->prepare(
-        "select FirstName, LastName, Phone, Email
-         from Contacts
-         where (FirstName like ? or LastName like ?)
-         and UserID=?"
+        "SELECT ContactID, FirstName, LastName, Phone, Email
+         FROM contacts
+         WHERE (FirstName LIKE ? OR LastName LIKE ?)
+         AND UserID=?"
     );
 
-    $contactName = "%" . $inData["search"] . "%";
-    $stmt->bind_param("ssi", $contactName, $contactName, $inData["userId"]);
+    $stmt->bind_param("ssi", $firstName, $lastName, $inData["userId"]);
     $stmt->execute();
 
     $result = $stmt->get_result();
@@ -26,6 +28,7 @@ else
     while ($row = $result->fetch_assoc())
     {
         $searchResults[] = [
+            "contactId" => $row["ContactID"],
             "firstName" => $row["FirstName"],
             "lastName"  => $row["LastName"],
             "phone"     => $row["Phone"],
