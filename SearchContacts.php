@@ -2,8 +2,7 @@
 
 $inData = getRequestInfo();
 
-$firstName = "%" . $inData["firstName"] . "%";
-$lastName = "%" . $inData["lastName"] . "%";
+$searchName = "%" . $inData["searchName"] . "%";
 $searchResults = [];
 
 $conn = new mysqli("localhost", "AllAccess", "SmallProject1", "contact_manager");
@@ -20,7 +19,7 @@ else
          AND UserID=?"
     );
 
-    $stmt->bind_param("ssi", $firstName, $lastName, $inData["userId"]);
+    $stmt->bind_param("ssi", $searchName, $searchName, $inData["userId"]);
     $stmt->execute();
 
     $result = $stmt->get_result();

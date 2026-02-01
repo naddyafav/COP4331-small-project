@@ -5,6 +5,10 @@ Needs the following information to be sent:
 * Part of the first or last name of contact to search for
 * User ID
 
+For the JSON being sent in the request to the API, the headers need to be:
+* searchName
+* userId
+
 Requests the following information about a contact from the database:
 * Contact ID
 * First Name
