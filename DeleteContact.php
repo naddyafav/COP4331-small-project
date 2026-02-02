@@ -16,9 +16,9 @@
 		$stmt->execute();
 
 		if ($stmt->affected_rows > 0) {
-    		echo "Contact deleted successfully.";
+    		returnWithError("");
 		} else {
-    		echo "No contact found or not authorized.";
+    		returnWithError("No contact found or not authorized.");
 		}
 
 		$stmt->close();
