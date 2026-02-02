@@ -16,11 +16,17 @@
 	else
 	{
 		$stmt = $conn->prepare("INSERT into contacts (UserID,FirstName,LastName,Email,Phone) VALUES(?,?,?,?,?)");
-		$stmt->bind_param("ss", $userId, $color);
+		$stmt->bind_param("issss", $userId, $firstName, $lastName, $email, $phone);
 		$stmt->execute();
+
+		if ($stmt->affected_rows > 0) {
+    		returnWithError("");
+		} else {
+    		returnWithError("Failed to add contact.");
+		}
+
 		$stmt->close();
 		$conn->close();
-		returnWithError("");
 	}
 
 	function getRequestInfo()
@@ -36,8 +42,9 @@
 	
 	function returnWithError( $err )
 	{
-		$retValue = '{"error":"' . $err . '"}';
-		sendResultInfoAsJson( $retValue );
+		sendResultInfoAsJson(json_encode([
+        "error" => $err
+    ]));
 	}
 	
 ?>

@@ -22,14 +22,13 @@
 		$stmt->execute();
 
 		if ($stmt->affected_rows > 0) {
-    		echo "Contact updated successfully.";
+    		returnWithError("");
 		} else {
-    		echo "No contact found or not authorized.";
+    		returnWithError("Failed to update contact.");
 		}
 
 		$stmt->close();
 		$conn->close();
-		returnWithError("");
 	}
 
 	function getRequestInfo()
