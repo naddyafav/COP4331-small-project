@@ -28,4 +28,19 @@ Needs the following information to be sent:
 * Contact ID
 * User ID
 
-API will send back a message if contact was successfully deleted or not.
+API will send back a message if contact was successfully deleted or not
+
+### Add function Needs
+* firstName
+* lastName 
+* phone 
+* email 
+* userId
+
+### Update function Needs
+* firstName
+* lastName 
+* phone 
+* email 
+* userId
+* contactId
