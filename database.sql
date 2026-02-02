@@ -1,4 +1,0 @@
-/*User Table
-
-
-/*Contact Table*/
