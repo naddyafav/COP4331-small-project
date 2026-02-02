@@ -30,17 +30,20 @@ Needs the following information to be sent:
 
 API will send back a message if contact was successfully deleted or not
 
-### Add function Needs
+### Add Endpoint:
+Function Needs:
 * firstName
 * lastName 
 * phone 
 * email 
 * userId
 
-### Update function Needs
+### Update Endpoint:
+Function Needs:
 * firstName
 * lastName 
 * phone 
 * email 
 * userId
 * contactId
+
