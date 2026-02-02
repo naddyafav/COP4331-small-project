@@ -2,9 +2,12 @@
 ## API Documentation:
 ### Search Endpoint:
 Needs the following information to be sent:
-* First name of contact to search for
-* Last name of contact to search for
+* Part of the first or last name of contact to search for
 * User ID
+
+For the JSON being sent in the request to the API, the headers need to be:
+* searchName
+* userId
 
 Requests the following information about a contact from the database:
 * Contact ID
