@@ -49,10 +49,11 @@ Function Needs:
 
 ### Login Endpoint
 Needs the following information:
-*login
-*password
+* login
+* password
 
 If login is succesful API will send a JSON file with:
 * userId
 * firstName
 * lastName
+
