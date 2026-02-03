@@ -1,5 +1,5 @@
 <?php
-$conn = new mysqli("localhost", "dbuser", "dbpass", "dbname");
+$conn = new mysqli("localhost", "AllAccess", "SmallProject1", "contact_manager");
 
 if ($conn->connect_error) {
     die(json_encode(["success" => false, "message" => "DB error"]));
