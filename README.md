@@ -1,0 +1,59 @@
+# COP4331-small-project
+## API Documentation:
+### Search Endpoint:
+Needs the following information to be sent:
+* Part of the first or last name of contact to search for
+* User ID
+
+For the JSON being sent in the request to the API, the headers need to be:
+* searchName
+* userId
+
+Requests the following information about a contact from the database:
+* Contact ID
+* First Name
+* Last Name
+* Phone Number
+* Email Address
+
+If contact exists, API will send back a JSON file with headers:
+* contactId
+* firstName
+* lastName
+* phone
+* email
+
+### Delete Endpoint:
+Needs the following information to be sent:
+* Contact ID
+* User ID
+
+API will send back a message if contact was successfully deleted or not
+
+### Add Endpoint:
+Function Needs:
+* firstName
+* lastName 
+* phone 
+* email 
+* userId
+
+### Update Endpoint:
+Function Needs:
+* firstName
+* lastName 
+* phone 
+* email 
+* userId
+* contactId
+
+### Login Endpoint
+Needs the following information:
+* login
+* password
+
+If login is succesful API will send a JSON file with:
+* userId
+* firstName
+* lastName
+
