@@ -8,7 +8,7 @@
 	$userId = $inData["userId"];
     $contactId = $inData["contactId"];
 
-	$conn = new mysqli("localhost", "AllAccess", "SmallProject1", "contacts");
+	$conn = new mysqli("localhost", "AllAccess", "SmallProject1", "contact_manager");
 
 	if ($conn->connect_error) 
 	{
@@ -17,7 +17,7 @@
 	else
 	{
 		$stmt = $conn->prepare(
-            "UPDATE contacts SET FirstName=?, LastName=?, Email=?, Phone=? WHERE ContactID=?, UserID=?");
+            "UPDATE contacts SET FirstName=?, LastName=?, Email=?, Phone=? WHERE ContactID=? AND UserID=?");
 		$stmt->bind_param("ssssii", $firstName, $lastName, $email, $phone, $contactId, $userId);
 		$stmt->execute();
 
