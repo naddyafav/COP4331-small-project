@@ -57,3 +57,11 @@ If login is succesful API will send a JSON file with:
 * firstName
 * lastName
 
+### Registration Endpoint:
+Needs the following information:
+* firstName
+* lastName
+* email
+* phone
+* username
+* password
