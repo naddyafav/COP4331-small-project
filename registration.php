@@ -60,4 +60,6 @@ if ($stmt->execute()) {
         "message" => "Registration failed"
     ]);
 }
+
+$conn->close();
 ?>
