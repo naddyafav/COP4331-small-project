@@ -63,5 +63,6 @@ Needs the following information:
 * lastName
 * email
 * phone
-* username
+* login
 * password
+
