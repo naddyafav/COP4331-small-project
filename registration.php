@@ -1,65 +1,72 @@
 <?php
-$conn = new mysqli("localhost", "AllAccess", "SmallProject1", "contact_manager");
 
-if ($conn->connect_error) {
-    die(json_encode(["success" => false, "message" => "DB error"]));
-}
+$conn = new mysqli("localhost", "AllAccess", "SmallProject1", "contact_manager");
 
 $data = json_decode(file_get_contents("php://input"), true);
 
 $firstName = $data["firstName"];
 $lastName  = $data["lastName"];
-$email     = $data["email"];
+$login     = $data["login"];
 $password  = $data["password"];
 
-
-// check if there's a duplicate email
-$stmt = $conn->prepare(
-    "SELECT UserID FROM Users WHERE Email = ?"
-);
-$stmt->bind_param("s", $email);
-$stmt->execute();
-$stmt->store_result();
-
-if ($stmt->num_rows > 0) {
-    echo json_encode([
-        "success" => false,
-        "message" => "User already exists"
-    ]);
-    exit;
+if ($conn->connect_error) {
+    returnWithError( $conn->connect_error );
 }
-$stmt->close();
+else
+{
+    // check if there's a duplicate login
+    $stmt = $conn->prepare(
+        "SELECT UserID FROM users WHERE Login = ?"
+    );
+    $stmt->bind_param("s", $login);
+    $stmt->execute();
+    $stmt->store_result();
 
+    if ($stmt->num_rows > 0) {
+        returnWithError("User already exists.");
+        $stmt->close();
+        $conn->close();
+    }
+    else
+    {
+        $stmt->close();    
 
-// hashing the password
-$passwordHash = password_hash($password, PASSWORD_DEFAULT);
+        // insert new user
+        $stmt = $conn->prepare(
+            "INSERT INTO users (FirstName, LastName, Login, PasswordHash)
+            VALUES (?, ?, ?, ?)"
+        );
 
+        $stmt->bind_param(
+            "ssss",
+            $firstName,
+            $lastName,
+            $login,
+            $password
+        );
 
-// insert new user
-$stmt = $conn->prepare(
-    "INSERT INTO Users (FirstName, LastName, Email, PasswordHash)
-     VALUES (?, ?, ?, ?)"
-);
+        if ($stmt->execute()) {
+            returnWithError("");
+        } else {
+            returnWithError("Registration Failed.");
+        }
 
-$stmt->bind_param(
-    "ssss",
-    $firstName,
-    $lastName,
-    $email,
-    $passwordHash
-);
-
-if ($stmt->execute()) {
-    echo json_encode([
-        "success" => true,
-        "userID" => $stmt->insert_id
-    ]);
-} else {
-    echo json_encode([
-        "success" => false,
-        "message" => "Registration failed"
-    ]);
+        $stmt->close();
+        $conn->close();
+    }
 }
 
-$conn->close();
+function sendResultInfoAsJson( $obj )
+{
+	header('Content-type: application/json');
+	echo $obj;
+}
+
+function returnWithError( $err )
+{
+	sendResultInfoAsJson(json_encode([
+       "error" => $err
+    ]));
+}
+
 ?>
