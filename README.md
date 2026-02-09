@@ -48,7 +48,6 @@ Returns:
 Needs the following information:
 * firstName
 * lastName
-* email
-* phone
 * login
 * password
+
