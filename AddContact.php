@@ -7,7 +7,7 @@
 	$email = $inData["email"];
 	$userId = $inData["userId"];
 
-	$conn = new mysqli("localhost", "AllAccess", "SmallProject1", "contacts");
+	$conn = new mysqli("localhost", "AllAccess", "SmallProject1", "contact_manager");
 
 	if ($conn->connect_error) 
 	{
