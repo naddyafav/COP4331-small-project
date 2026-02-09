@@ -1,0 +1,292 @@
+swagger: '2.0'
+info:
+  title: Contact Manager API
+  description: A simple contact manager API
+  version: 1.0.0
+
+  contact:
+    name: Group 9 API Team
+  x-team-contacts:
+    - name: Ben Andrew
+      role: API Developer
+    - name: Sam Trout
+      role: API Developer
+    - name: Naddya Favela
+      role: PM/API/Database Developer
+    - name: Linh Phan
+      role: API/Front-End Developer
+
+  license:
+    name: Apache 2.0
+    url: http://www.apache.org/licenses/LICENSE-2.0.html
+
+paths:
+  /AddContact.php:
+    post:
+      operationId: addContact
+      summary: adds a contact
+      description: adds a contact to database
+      tags:
+      - Add
+      consumes:
+      - application/json
+      produces: 
+      - application/json
+      parameters:
+      - in: body
+        name: contactAdd
+        description: add contact
+        schema: 
+          $ref: '#/definitions/AddContact'
+      responses:
+        200:
+          description: OK
+        404:
+          description: URL Not Found
+        500:
+          description: Server Error
+
+  /DeleteContact.php:
+    post:
+      operationId: deleteContact
+      summary: deletes a contact
+      description: removes a contact from database
+      tags:
+      - Delete
+      consumes:
+      - application/json
+      produces: 
+      - application/json
+      parameters:
+      - in: body
+        name: contactDelete
+        description: delete contact
+        schema: 
+          $ref: '#/definitions/DeleteContact'
+      responses:
+        200:
+          description: OK
+        404:
+          description: URL Not Found
+        500:
+          description: Server Error
+
+  /UpdateContact.php:
+    post:
+      operationId: updateContact
+      summary: updates a contact
+      description: updates a contact in the database
+      tags:
+      - Update
+      consumes:
+      - application/json
+      produces: 
+      - application/json
+      parameters:
+      - in: body
+        name: contactUpdate
+        description: update contact
+        schema: 
+          $ref: '#/definitions/UpdateContact'
+      responses:
+        200:
+          description: OK
+        404:
+          description: URL Not Found
+        500:
+          description: Server Error
+
+  /SearchContacts.php:
+    post:
+      operationId: searchContacts
+      summary: search for contact
+      description: searches database for a contact
+      tags:
+      - Search
+      consumes:
+      - application/json
+      produces: 
+      - application/json
+      parameters:
+      - in: body
+        name: contactSearch
+        description: search for contact
+        schema: 
+          $ref: '#/definitions/SearchContacts'
+      responses:
+        200:
+          description: OK
+        404:
+          description: URL Not Found
+        500:
+          description: Server Error
+
+  /login.php:
+    post:
+      operationId: login
+      summary: logs in a user
+      description: allows user to login with credentials
+      tags:
+      - Users
+      consumes:
+      - application/json
+      produces: 
+      - application/json
+      parameters:
+      - in: body
+        name: userLogin
+        description: login the user
+        schema: 
+          $ref: '#/definitions/login'
+      responses:
+        200:
+          description: OK
+        404:
+          description: URL Not Found
+        500:
+          description: Server Error
+
+  /registration.php:
+    post:
+      operationId: registration
+      summary: registers a new user
+      description: adds a new user to the database
+      tags:
+      - Users
+      consumes:
+      - application/json
+      produces: 
+      - application/json
+      parameters:
+      - in: body
+        name: userRegitration
+        description: register user
+        schema: 
+          $ref: '#/definitions/registration'
+      responses:
+        200:
+          description: OK
+        404:
+          description: URL Not Found
+        500:
+          description: Server Error
+
+definitions:
+  AddContact:
+    type: object
+    required:
+    - firstName
+    - lastName
+    - phone
+    - email
+    - userId
+    properties:
+      firstName:
+        type: string
+        example: "John"
+      lastName:
+        type: string
+        example: "Doe"
+      phone:
+        type: string
+        example: "5551234"
+      email:
+        type: string
+        example: "john@random.com"
+      userId:
+        type: integer
+        example: "1"
+
+  DeleteContact:
+    type: object
+    required:
+    - contactId
+    - userId
+    properties:
+      contactId:
+        type: integer
+        example: "15"
+      userId:
+        type: integer
+        example: "1"
+
+  UpdateContact:
+    type: object
+    required:
+    - firstName
+    - lastName
+    - phone
+    - email
+    - userId
+    - contactId
+    properties:
+      firstName:
+        type: string
+        example: "Jane"
+      lastName:
+        type: string
+        example: "Doe"
+      phone:
+        type: string
+        example: "5551234"
+      email:
+        type: string
+        example: "jane@random.com"
+      userId:
+        type: integer
+        example: "1"
+      contactId:
+        type: integer
+        example: "15"
+
+  SearchContacts:
+    type: object
+    required:
+    - searchName
+    - userId
+    properties:
+      searchName:
+        type: string
+        example: "Sam"
+      userId:
+        type: integer
+        example: "1"
+
+  login:
+    type: object
+    required:
+    - login
+    - password
+    properties:
+      login:
+        type: string
+        example: "AYadavally"
+      password:
+        type: string
+        example: "COP4331"
+
+  registration:
+    type: object
+    required:
+    - firstName
+    - lastName
+    - login
+    - password
+    properties:
+      firstName:
+        type: string
+        example: "New"
+      lastName:
+        type: string
+        example: "User"
+      login:
+        type: string
+        example: "newUser"
+      password:
+        type: string
+        example: "nuUzrPass"
+
+host: group9.online
+basePath: /API
+schemes:
+- http
