@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Register</title>
+  <link rel="stylesheet" href="/css/style.css" />
+</head>
+<body>
+  <h1>Register</h1>
+
+  <div class="card">
+    <label>First Name</label>
+    <input id="firstName" type="text" />
+
+    <label>Last Name</label>
+    <input id="lastName" type="text" />
+
+    <label>Username</label>
+    <input id="regUsername" type="text" autocomplete="username"/>
+
+    <label>Password</label>
+    <input id="regPassword" type="password" autocomplete="new-password"/>
+
+    <button id="registerBtn">Create Account</button>
+
+    <p id="registerMsg" class="msg"></p>
+
+    <p>
+      Already have an account?
+      <a href="/login.html">Back to Login</a>
+    </p>
+  </div>
+
+  <script src="/js/register.js"></script>
+</body>
+</html>
