@@ -1,7 +1,139 @@
-body { font-family: Arial, sans-serif; margin: 24px; }
-.card { max-width: 420px; padding: 16px; border: 1px solid #ddd; border-radius: 8px; }
-label { display:block; margin-top: 10px; }
-input { width: 100%; padding: 8px; margin-top: 4px; box-sizing: border-box; }
-button { margin-top: 14px; padding: 8px 12px; cursor: pointer; }
-.msg { margin-top: 10px; color: #b00020; }
-.topbar { display:flex; justify-content: space-between; align-items:center; margin-bottom: 16px; }
+/* ===== UCF Dashboard Style ===== */
+body{
+  margin:0;
+  font-family: Arial, Helvetica, sans-serif;
+  background:#f3f3f1;
+  color:#1f2937;
+}
+
+/* LEFT SIDEBAR */
+.sidebar{
+  position:fixed;
+  left:0;
+  top:0;
+  bottom:0;
+  width:230px;
+  background:white;
+  border-right:1px solid #e5e7eb;
+  padding:18px;
+}
+
+.brand{
+  font-weight:bold;
+  font-size:20px;
+  margin-bottom:25px;
+}
+
+.nav-item{
+  display:block;
+  padding:10px 14px;
+  border-radius:8px;
+  margin-bottom:6px;
+  text-decoration:none;
+  color:#111;
+}
+
+.nav-item.active{
+  background:#ffc904;
+  font-weight:bold;
+}
+
+/* MAIN AREA */
+.main{
+  margin-left:230px;
+  padding:28px;
+}
+
+/* TOPBAR */
+.topbar{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  margin-bottom:20px;
+}
+
+#welcome{ font-weight:bold; margin-right:12px; }
+
+/* CARDS */
+.card{
+  background:white;
+  border-radius:16px;
+  padding:22px;
+  box-shadow:0 8px 20px rgba(0,0,0,0.08);
+  margin-bottom:22px;
+}
+
+/* GRID LAYOUT */
+.grid{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:22px;
+}
+
+/* INPUTS */
+input{
+  width:100%;
+  padding:10px;
+  border-radius:10px;
+  border:1px solid #ddd;
+  margin-bottom:10px;
+}
+
+input:focus{
+  border-color:#ffc904;
+  outline:none;
+}
+
+/* BUTTONS */
+button{
+  border:none;
+  border-radius:10px;
+  padding:10px 16px;
+  cursor:pointer;
+  font-weight:bold;
+}
+
+.btn-gold{
+  background:#ffc904;
+}
+
+.btn-outline{
+  background:white;
+  border:1px solid #ccc;
+}
+
+/* TABLE */
+table{
+  width:100%;
+  border-collapse:collapse;
+  margin-top:10px;
+}
+
+th,td{
+  padding:12px;
+  border-bottom:1px solid #eee;
+}
+
+th{
+  background:#fafafa;
+  text-align:left;
+}
+
+/* LOGIN / REGISTER CENTER */
+.auth-wrapper{
+  display:flex;
+  height:100vh;
+  align-items:center;
+  justify-content:center;
+}
+
+.auth-card{
+  width:360px;
+  background:white;
+  padding:30px;
+  border-radius:16px;
+  box-shadow:0 8px 20px rgba(0,0,0,0.08);
+  text-align:center;
+}
+
+.msg{ color:#b00020; margin-top:10px; }
