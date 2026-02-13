@@ -1,127 +1,90 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Contacts</title>
-  <link rel="stylesheet" href="/css/style.css">
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Contacts</title>
+<link rel="stylesheet" href="/css/style.css">
 </head>
 
-<body class="ucf">
+<body class="ucf ucf-dashboard">
 
-  <!-- Sidebar (UCF-style) -->
   <aside class="ucf-sidebar">
-    <div class="ucf-brand">
+    <div class="ucf-sidebar-brand">
       <div class="ucf-brand-badge">UCF</div>
-      <div class="ucf-brand-text">
-        <div class="ucf-brand-title">Contact Manager</div>
-        <div class="ucf-brand-sub">Dashboard</div>
-      </div>
+      <div class="ucf-sidebar-title">COP 4331 • Group 9</div>
+      <div class="ucf-sidebar-sub">Contact Manager</div>
     </div>
 
     <nav class="ucf-nav">
-      <a class="ucf-nav-item ucf-active" href="contacts.html">Dashboard</a>
-      <a class="ucf-nav-item" href="#">Announcements</a>
-      <a class="ucf-nav-item" href="#">Events & Calendars</a>
-
-      <div class="ucf-nav-section">Essentials</div>
-      <a class="ucf-nav-item" href="#">Student Self Service</a>
-      <a class="ucf-nav-item" href="#">UCF Email</a>
-      <a class="ucf-nav-item" href="#">Webcourses@UCF</a>
+      <a class="ucf-nav-item active" href="/contacts.html">Dashboard</a>
+      <a class="ucf-nav-item" href="/about.html">About Team 9</a>
+      <a class="ucf-nav-item" href="/login.html">Login</a>
+      <a class="ucf-nav-item" href="/register.html">Register</a>
     </nav>
   </aside>
 
-  <!-- Main -->
   <main class="ucf-main">
-
-    <!-- Top bar -->
     <header class="ucf-topbar">
-      <div class="ucf-search">
-        <span class="ucf-search-icon">🔍</span>
-        <input class="ucf-search-input" type="text" placeholder="Search" aria-label="Search" />
-      </div>
-
+      <h1 class="ucf-page-title">My Contacts</h1>
       <div class="ucf-top-actions">
         <span id="welcome" class="ucf-welcome"></span>
         <button id="logoutBtn" class="ucf-btn ucf-btn-outline" type="button">Logout</button>
       </div>
     </header>
 
-    <!-- Banner -->
-    <section class="ucf-banner" aria-label="Notification">
+    <section class="ucf-banner">
       <div class="ucf-banner-left">
         <span class="ucf-banner-icon">⚠️</span>
-        <span class="ucf-banner-text">Check your information in Student Self Service</span>
+        <span class="ucf-banner-text">COP 4331 — Group 9 • Contact Manager</span>
       </div>
-      <span class="ucf-banner-arrow">›</span>
     </section>
 
-    <!-- Content -->
-    <section class="ucf-content">
-      <div class="ucf-section-head">
-        <h1 class="ucf-page-title">Widgets</h1>
-        <button class="ucf-btn ucf-btn-gold" type="button">Find New Widgets</button>
+    <section class="ucf-grid">
+      <div class="ucf-card">
+        <h2 class="ucf-card-title">Add Contact</h2>
+
+        <div class="ucf-form">
+          <input id="addFirst" class="ucf-input" placeholder="First Name">
+          <input id="addLast" class="ucf-input" placeholder="Last Name">
+          <input id="addEmail" class="ucf-input" placeholder="Email">
+          <input id="addPhone" class="ucf-input" placeholder="Phone">
+
+          <button id="addBtn" class="ucf-btn ucf-btn-gold" type="button">Add Contact</button>
+          <p id="addMsg" class="ucf-msg"></p>
+        </div>
       </div>
 
-      <div class="ucf-grid">
-        <!-- Add Contact Card -->
-        <section class="ucf-card">
-          <div class="ucf-card-head">
-            <h2 class="ucf-card-title">Add Contact</h2>
+      <div class="ucf-card">
+        <h2 class="ucf-card-title">Search Contacts</h2>
+
+        <div class="ucf-form">
+          <div class="ucf-search-row">
+            <input id="searchText" class="ucf-input" placeholder="Enter name...">
+            <button id="searchBtn" class="ucf-btn ucf-btn-gold" type="button">Search</button>
           </div>
 
-          <div class="ucf-form">
-            <!-- IMPORTANT: ids unchanged for JS -->
-            <input id="addFirst" class="ucf-input" placeholder="First Name" />
-            <input id="addLast" class="ucf-input" placeholder="Last Name" />
-            <input id="addEmail" class="ucf-input" placeholder="Email" />
-            <input id="addPhone" class="ucf-input" placeholder="Phone" />
+          <p id="searchMsg" class="ucf-msg"></p>
 
-            <button id="addBtn" class="ucf-btn ucf-btn-gold" type="button">Add Contact</button>
-            <p id="addMsg" class="ucf-msg"></p>
+          <div class="ucf-table-wrap">
+            <table class="ucf-table">
+              <thead>
+                <tr>
+                  <th>First</th>
+                  <th>Last</th>
+                  <th>Email</th>
+                  <th>Phone</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+              <tbody id="contactsBody"></tbody>
+            </table>
           </div>
-        </section>
-
-        <!-- Search / Table Card -->
-        <section class="ucf-card ucf-card-wide">
-          <div class="ucf-card-head">
-            <h2 class="ucf-card-title">Search Contacts</h2>
-          </div>
-
-          <div class="ucf-form">
-            <!-- IMPORTANT: ids unchanged for JS -->
-            <div class="ucf-search-row">
-              <input id="searchText" class="ucf-input" placeholder="Enter name..." />
-              <button id="searchBtn" class="ucf-btn ucf-btn-gold" type="button">Search</button>
-            </div>
-
-            <p id="searchMsg" class="ucf-msg"></p>
-
-            <div class="ucf-table-wrap">
-              <table class="ucf-table">
-                <thead>
-                  <tr>
-                    <th>First</th>
-                    <th>Last</th>
-                    <th>Email</th>
-                    <th>Phone</th>
-                    <th>Actions</th>
-                  </tr>
-                </thead>
-                <tbody id="contactsBody"></tbody>
-              </table>
-            </div>
-          </div>
-        </section>
+        </div>
       </div>
     </section>
   </main>
 
-  <script src="/js/contacts.js"></script>
-
-<p style="margin-top:20px">
-  <a href="/about.html">About Team 9</a>
-</p>
-
+<script src="/js/contacts.js"></script>
 </body>
 </html>
