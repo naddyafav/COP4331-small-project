@@ -1,3 +1,9 @@
+下面是统一 UCF 风格后的 **register.html**。
+同样保证：不改任何 JS 用到的 id，脚本路径不变。
+
+直接整份替换即可：
+
+```html
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -6,32 +12,51 @@
   <title>Register</title>
   <link rel="stylesheet" href="/css/style.css" />
 </head>
-<body>
-  <h1>Register</h1>
 
-  <div class="card">
-    <label>First Name</label>
-    <input id="firstName" type="text" />
+<body class="ucf ucf-auth">
 
-    <label>Last Name</label>
-    <input id="lastName" type="text" />
+  <!-- Left brand panel -->
+  <section class="ucf-auth-left" aria-label="Brand">
+    <div class="ucf-auth-brand">
+      <div class="ucf-brand-badge">UCF</div>
+      <div class="ucf-auth-title">Contact Manager</div>
+      <div class="ucf-auth-sub">Create your account to get started</div>
+    </div>
+  </section>
 
-    <label>Username</label>
-    <input id="regUsername" type="text" autocomplete="username"/>
+  <!-- Right register card -->
+  <main class="ucf-auth-right">
+    <div class="ucf-card ucf-auth-card">
+      <h1 class="ucf-auth-h1">Create Account</h1>
 
-    <label>Password</label>
-    <input id="regPassword" type="password" autocomplete="new-password"/>
+      <div class="ucf-form">
+        <label class="ucf-label" for="firstName">First Name</label>
+        <input id="firstName" class="ucf-input" type="text" />
 
-    <button id="registerBtn">Create Account</button>
+        <label class="ucf-label" for="lastName">Last Name</label>
+        <input id="lastName" class="ucf-input" type="text" />
 
-    <p id="registerMsg" class="msg"></p>
+        <label class="ucf-label" for="regUsername">Username</label>
+        <input id="regUsername" class="ucf-input" type="text" autocomplete="username"/>
 
-    <p>
-      Already have an account?
-      <a href="/login.html">Back to Login</a>
-    </p>
-  </div>
+        <label class="ucf-label" for="regPassword">Password</label>
+        <input id="regPassword" class="ucf-input" type="password" autocomplete="new-password"/>
+
+        <button id="registerBtn" class="ucf-btn ucf-btn-gold" type="button">
+          Create Account
+        </button>
+
+        <p id="registerMsg" class="ucf-msg"></p>
+
+        <p class="ucf-auth-foot">
+          Already have an account?
+          <a class="ucf-link" href="/login.html">Back to Login</a>
+        </p>
+      </div>
+    </div>
+  </main>
 
   <script src="/js/register.js"></script>
 </body>
 </html>
+```
