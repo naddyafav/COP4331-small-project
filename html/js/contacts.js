@@ -1,11 +1,11 @@
 // ===============================
-// CONTACTS.JS FULL VERSION
+// CONTACTS.JS FULL VERSION (FIXED PATHS ONLY)
 // ===============================
 
 // ---------- LOGIN PROTECTION ----------
 const userId = localStorage.getItem("userId");
 if (!userId || Number(userId) <= 0) {
-  window.location.href = "/login.html";
+  window.location.href = "login.html";
 }
 
 const firstName = localStorage.getItem("firstName") || "";
@@ -14,7 +14,7 @@ document.getElementById("welcome").textContent = `Welcome, ${firstName} ${lastNa
 
 document.getElementById("logoutBtn").addEventListener("click", () => {
   localStorage.clear();
-  window.location.href = "/login.html";
+  window.location.href = "login.html";
 });
 
 // ---------- ADD CONTACT ----------
@@ -43,7 +43,7 @@ async function addContact() {
   };
 
   try {
-    const res = await fetch("/API/AddContact.php", {
+    const res = await fetch("API/AddContact.php", {
       method: "POST",
       headers: {"Content-Type":"application/json"},
       body: JSON.stringify(payload)
@@ -92,7 +92,7 @@ async function searchContacts() {
   };
 
   try {
-    const res = await fetch("/API/SearchContacts.php", {
+    const res = await fetch("API/SearchContacts.php", {
       method: "POST",
       headers: {"Content-Type":"application/json"},
       body: JSON.stringify(payload)
@@ -136,7 +136,7 @@ async function searchContacts() {
 async function deleteContact(id) {
   if (!confirm("Delete this contact?")) return;
 
-  const res = await fetch("/API/DeleteContact.php", {
+  const res = await fetch("API/DeleteContact.php", {
     method: "POST",
     headers: {"Content-Type":"application/json"},
     body: JSON.stringify({ id })
@@ -178,7 +178,7 @@ async function saveEdit(id) {
     phone: document.getElementById(`editPhone${id}`).value.trim()
   };
 
-  const res = await fetch("/API/UpdateContact.php", {
+  const res = await fetch("API/UpdateContact.php", {
     method: "POST",
     headers: {"Content-Type":"application/json"},
     body: JSON.stringify(payload)
