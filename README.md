@@ -5,7 +5,7 @@ A simple contact manager
 * LAMP Stack: Linux, Apache, MySQL, PHP
 * Version Control: GitHub/Git, URL: https://github.com/naddyafav/COP4331-small-project.git
 * Server Hosting: DigitalOcean, IP: 64.225.30.70
-* Domain Hosting: GoDaddy?, Domain Name: group9.online
+* Domain Hosting: namecheap.com, Domain Name: group9.online
 * Group Communication: Discord, Link: https://discord.gg/br4vSfkn
 
 ## Process for Updating Server Files
@@ -76,4 +76,4 @@ Team Member: Ben Andrew\
 Tool: ChatGPT (GPT-5.2), OpenAI\
 Date: \
 Scope: \
-Usage: \
+Usage: 
