@@ -1,5 +1,5 @@
 // ===============================
-// CONTACTS.JS FULL VERSION (FIXED PATHS ONLY)
+// CONTACTS.JS FULL VERSION 
 // ===============================
 
 // ---------- LOGIN PROTECTION ----------
@@ -86,8 +86,9 @@ async function searchContacts() {
   msg.textContent = "";
   tbody.innerHTML = "";
 
+  // PHP expects: searchName, userId
   const payload = {
-    search: searchText,
+    searchName: searchText,
     userId: Number(userId)
   };
 
@@ -100,7 +101,12 @@ async function searchContacts() {
 
     const data = await res.json();
 
+    // PHP returns error "No Records Found" when empty
     if (data.error !== "") {
+      if (data.error === "No Records Found") {
+        msg.textContent = "No contacts found.";
+        return;
+      }
       msg.textContent = data.error;
       return;
     }
@@ -112,6 +118,7 @@ async function searchContacts() {
 
     data.results.forEach(contact => {
       const row = document.createElement("tr");
+      const id = contact.contactId; // PHP returns contactId
 
       row.innerHTML = `
         <td>${escapeHtml(contact.firstName)}</td>
@@ -119,8 +126,8 @@ async function searchContacts() {
         <td>${escapeHtml(contact.email)}</td>
         <td>${escapeHtml(contact.phone)}</td>
         <td>
-          <button onclick="startEdit(${contact.id}, this)">Edit</button>
-          <button onclick="deleteContact(${contact.id})">Delete</button>
+          <button onclick="startEdit(${id}, this)">Edit</button>
+          <button onclick="deleteContact(${id})">Delete</button>
         </td>
       `;
 
@@ -136,10 +143,11 @@ async function searchContacts() {
 async function deleteContact(id) {
   if (!confirm("Delete this contact?")) return;
 
+  // PHP expects: contactId, userId
   const res = await fetch("API/DeleteContact.php", {
     method: "POST",
     headers: {"Content-Type":"application/json"},
-    body: JSON.stringify({ id })
+    body: JSON.stringify({ contactId: id, userId: Number(userId) })
   });
 
   const data = await res.json();
@@ -170,8 +178,10 @@ function startEdit(id, btn) {
 }
 
 async function saveEdit(id) {
+  // PHP expects: contactId, userId, firstName, lastName, email, phone
   const payload = {
-    id,
+    contactId: id,
+    userId: Number(userId),
     firstName: document.getElementById(`editFirst${id}`).value.trim(),
     lastName: document.getElementById(`editLast${id}`).value.trim(),
     email: document.getElementById(`editEmail${id}`).value.trim(),
