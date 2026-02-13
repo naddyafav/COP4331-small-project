@@ -9,16 +9,13 @@
 
 <body class="ucf ucf-auth">
 
-  <!-- Left brand panel -->
   <section class="ucf-auth-left" aria-label="Brand">
     <div class="ucf-auth-brand">
       <div class="ucf-brand-badge">UCF</div>
-      <div class="ucf-auth-title">Contact Manager</div>
-      <div class="ucf-auth-sub">Create your account to get started</div>
+      <div class="ucf-auth-title">COP 4331 Group 9 — Contact Manager</div>
     </div>
   </section>
 
-  <!-- Right register card -->
   <main class="ucf-auth-right">
     <div class="ucf-card ucf-auth-card">
       <h1 class="ucf-auth-h1">Create Account</h1>
@@ -36,26 +33,19 @@
         <label class="ucf-label" for="regPassword">Password</label>
         <input id="regPassword" class="ucf-input" type="password" autocomplete="new-password"/>
 
-        <button id="registerBtn" class="ucf-btn ucf-btn-gold" type="button">
-          Create Account
-        </button>
+        <button id="registerBtn" class="ucf-btn ucf-btn-gold" type="button">Create Account</button>
 
         <p id="registerMsg" class="ucf-msg"></p>
 
-        <p class="ucf-auth-foot">
-          Already have an account?
+        <div class="ucf-auth-links">
           <a class="ucf-link" href="/login.html">Back to Login</a>
-        </p>
+          <span class="ucf-auth-dot">•</span>
+          <a class="ucf-link" href="/about.html">About Team 9</a>
+        </div>
       </div>
     </div>
   </main>
 
   <script src="/js/register.js"></script>
-
-<p style="margin-top:20px">
-  <a href="/about.html">About Team 9</a>
-</p>
-
 </body>
 </html>
-
