@@ -74,6 +74,6 @@ A.I. was used in the creation of this website.
 
 Team Member: Ben Andrew\
 Tool: ChatGPT (GPT-5.2), OpenAI\
-Date: \
-Scope: \
-Usage: 
+Date: Jan. 27 - Feb. 9\
+Scope: Understanding API and Backend Development\
+Usage: Generated explainations for PHP code, swagger, and server setup.\
