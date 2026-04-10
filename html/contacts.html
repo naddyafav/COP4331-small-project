@@ -57,9 +57,10 @@
         <h2 class="ucf-card-title">Search Contacts</h2>
 
         <div class="ucf-form">
-          <div class="ucf-search-row">
-            <input id="searchText" class="ucf-input" placeholder="Enter name...">
+          <div class="ucf-search-row" style="display:flex; gap:10px; flex-wrap:wrap; margin-bottom:10px;">
+            <input id="searchText" class="ucf-input" placeholder="Enter name..." style="flex:1;">
             <button id="searchBtn" class="ucf-btn ucf-btn-gold" type="button">Search</button>
+            <button id="toggleFavoritesBtn" class="ucf-btn ucf-btn-outline" type="button">Show Favorites Only</button>
           </div>
 
           <p id="searchMsg" class="ucf-msg"></p>
@@ -68,6 +69,7 @@
             <table class="ucf-table">
               <thead>
                 <tr>
+                  <th>Favorite</th>
                   <th>First</th>
                   <th>Last</th>
                   <th>Email</th>

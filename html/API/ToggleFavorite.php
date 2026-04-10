@@ -1,11 +1,10 @@
 <?php
+
 $inData = getRequestInfo();
 
-$firstName = $inData["firstName"];
-$lastName = $inData["lastName"];
-$phone = $inData["phone"];
-$email = $inData["email"];
+$contactId = $inData["contactId"];
 $userId = $inData["userId"];
+$favorite = $inData["favorite"];
 
 $conn = new mysqli("localhost", "AllAccess", "SmallProject1", "contact_manager");
 
@@ -15,17 +14,20 @@ if ($conn->connect_error)
 }
 else
 {
-    $stmt = $conn->prepare("INSERT INTO contacts (UserID, FirstName, LastName, Email, Phone) VALUES (?, ?, ?, ?, ?)");
-    $stmt->bind_param("issss", $userId, $firstName, $lastName, $email, $phone);
+    $stmt = $conn->prepare(
+        "UPDATE contacts SET Favorite=? WHERE ContactID=? AND UserID=?"
+    );
+
+    $stmt->bind_param("iii", $favorite, $contactId, $userId);
     $stmt->execute();
 
-    if ($stmt->affected_rows > 0)
+    if ($stmt->affected_rows >= 0)
     {
         returnWithSuccess();
     }
     else
     {
-        returnWithError("Failed to add contact.");
+        returnWithError("Failed to update favorite status.");
     }
 
     $stmt->close();
