@@ -6,6 +6,7 @@ $searchName = "%" . $inData["searchName"] . "%";
 $searchResults = [];
 
 $conn = new mysqli("localhost", "AllAccess", "SmallProject1", "contact_manager");
+
 if ($conn->connect_error)
 {
     returnWithError($conn->connect_error);
@@ -13,7 +14,7 @@ if ($conn->connect_error)
 else
 {
     $stmt = $conn->prepare(
-        "SELECT ContactID, FirstName, LastName, Phone, Email
+        "SELECT ContactID, FirstName, LastName, Phone, Email, Favorite
          FROM contacts
          WHERE (FirstName LIKE ? OR LastName LIKE ?)
          AND UserID=?"
@@ -31,7 +32,8 @@ else
             "firstName" => $row["FirstName"],
             "lastName"  => $row["LastName"],
             "phone"     => $row["Phone"],
-            "email"     => $row["Email"]
+            "email"     => $row["Email"],
+            "favorite"  => $row["Favorite"]
         ];
     }
 
