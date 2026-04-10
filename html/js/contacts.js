@@ -1,5 +1,6 @@
 // ===============================
-// CONTACTS.JS FULL VERSION 
+// CONTACTS.JS FULL VERSION
+// FAVORITE CONTACTS FEATURE ADDED
 // ===============================
 
 // ---------- LOGIN PROTECTION ----------
@@ -16,6 +17,9 @@ document.getElementById("logoutBtn").addEventListener("click", () => {
   localStorage.clear();
   window.location.href = "login.html";
 });
+
+// ---------- FAVORITES FILTER STATE ----------
+let favoritesOnly = false;
 
 // ---------- ADD CONTACT ----------
 document.getElementById("addBtn").addEventListener("click", addContact);
@@ -35,17 +39,17 @@ async function addContact() {
   }
 
   const payload = {
-    firstName,
-    lastName,
-    email,
-    phone,
+    firstName: firstName,
+    lastName: lastName,
+    email: email,
+    phone: phone,
     userId: Number(userId)
   };
 
   try {
     const res = await fetch("API/AddContact.php", {
       method: "POST",
-      headers: {"Content-Type":"application/json"},
+      headers: { "Content-Type": "application/json" },
       body: JSON.stringify(payload)
     });
 
@@ -59,8 +63,7 @@ async function addContact() {
     msg.textContent = "Contact added!";
     clearAddFields();
     searchContacts();
-
-  } catch {
+  } catch (error) {
     msg.textContent = "Server error.";
   }
 }
@@ -74,8 +77,23 @@ function clearAddFields() {
 
 // ---------- SEARCH CONTACTS ----------
 document.getElementById("searchBtn").addEventListener("click", searchContacts);
-document.getElementById("searchText").addEventListener("keydown", e => {
-  if (e.key === "Enter") searchContacts();
+
+document.getElementById("searchText").addEventListener("keydown", function(e) {
+  if (e.key === "Enter") {
+    searchContacts();
+  }
+});
+
+document.getElementById("toggleFavoritesBtn").addEventListener("click", function() {
+  favoritesOnly = !favoritesOnly;
+
+  if (favoritesOnly) {
+    this.textContent = "Show All Contacts";
+  } else {
+    this.textContent = "Show Favorites Only";
+  }
+
+  searchContacts();
 });
 
 async function searchContacts() {
@@ -86,7 +104,6 @@ async function searchContacts() {
   msg.textContent = "";
   tbody.innerHTML = "";
 
-  // PHP expects: searchName, userId
   const payload = {
     searchName: searchText,
     userId: Number(userId)
@@ -95,90 +112,155 @@ async function searchContacts() {
   try {
     const res = await fetch("API/SearchContacts.php", {
       method: "POST",
-      headers: {"Content-Type":"application/json"},
+      headers: { "Content-Type": "application/json" },
       body: JSON.stringify(payload)
     });
 
     const data = await res.json();
 
-    // PHP returns error "No Records Found" when empty
     if (data.error !== "") {
       if (data.error === "No Records Found") {
         msg.textContent = "No contacts found.";
         return;
       }
+
       msg.textContent = data.error;
       return;
     }
 
-    if (!data.results.length) {
+    if (!data.results || data.results.length === 0) {
       msg.textContent = "No contacts found.";
       return;
     }
 
-    data.results.forEach(contact => {
+    let contactsToShow = data.results;
+
+    if (favoritesOnly) {
+      contactsToShow = contactsToShow.filter(function(contact) {
+        return Number(contact.favorite) === 1;
+      });
+    }
+
+    if (contactsToShow.length === 0) {
+      msg.textContent = favoritesOnly
+        ? "No favorite contacts found."
+        : "No contacts found.";
+      return;
+    }
+
+    contactsToShow.forEach(function(contact) {
       const row = document.createElement("tr");
-      const id = contact.contactId; // PHP returns contactId
+      const id = contact.contactId;
+      const isFavorite = Number(contact.favorite) === 1;
 
       row.innerHTML = `
+        <td>
+          <button type="button" onclick="toggleFavorite(${id}, ${isFavorite ? 1 : 0})">
+            ${isFavorite ? "★" : "☆"}
+          </button>
+        </td>
         <td>${escapeHtml(contact.firstName)}</td>
         <td>${escapeHtml(contact.lastName)}</td>
         <td>${escapeHtml(contact.email)}</td>
         <td>${escapeHtml(contact.phone)}</td>
         <td>
-          <button onclick="startEdit(${id}, this)">Edit</button>
-          <button onclick="deleteContact(${id})">Delete</button>
+          <button type="button" onclick="startEdit(${id}, this, ${isFavorite ? 1 : 0})">Edit</button>
+          <button type="button" onclick="deleteContact(${id})">Delete</button>
         </td>
       `;
 
       tbody.appendChild(row);
     });
 
-  } catch {
+  } catch (error) {
     msg.textContent = "Server error.";
+  }
+}
+
+// ---------- TOGGLE FAVORITE ----------
+async function toggleFavorite(id, currentFavorite) {
+  try {
+    const payload = {
+      contactId: id,
+      userId: Number(userId),
+      favorite: currentFavorite === 1 ? 0 : 1
+    };
+
+    const res = await fetch("API/ToggleFavorite.php", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(payload)
+    });
+
+    const data = await res.json();
+
+    if (data.error !== "") {
+      alert(data.error);
+      return;
+    }
+
+    searchContacts();
+  } catch (error) {
+    alert("Server error.");
   }
 }
 
 // ---------- DELETE ----------
 async function deleteContact(id) {
-  if (!confirm("Delete this contact?")) return;
+  if (!confirm("Delete this contact?")) {
+    return;
+  }
 
-  // PHP expects: contactId, userId
-  const res = await fetch("API/DeleteContact.php", {
-    method: "POST",
-    headers: {"Content-Type":"application/json"},
-    body: JSON.stringify({ contactId: id, userId: Number(userId) })
-  });
+  try {
+    const res = await fetch("API/DeleteContact.php", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        contactId: id,
+        userId: Number(userId)
+      })
+    });
 
-  const data = await res.json();
-  if (data.error !== "") alert(data.error);
-  else searchContacts();
+    const data = await res.json();
+
+    if (data.error !== "") {
+      alert(data.error);
+    } else {
+      searchContacts();
+    }
+  } catch (error) {
+    alert("Server error.");
+  }
 }
 
 // ---------- EDIT ----------
-function startEdit(id, btn) {
+function startEdit(id, btn, favoriteValue) {
   const row = btn.closest("tr");
   const cells = row.querySelectorAll("td");
 
-  const first = cells[0].textContent;
-  const last  = cells[1].textContent;
-  const email = cells[2].textContent;
-  const phone = cells[3].textContent;
+  const first = cells[1].textContent;
+  const last = cells[2].textContent;
+  const email = cells[3].textContent;
+  const phone = cells[4].textContent;
 
   row.innerHTML = `
-    <td><input id="editFirst${id}" value="${first}"></td>
-    <td><input id="editLast${id}" value="${last}"></td>
-    <td><input id="editEmail${id}" value="${email}"></td>
-    <td><input id="editPhone${id}" value="${phone}"></td>
     <td>
-      <button onclick="saveEdit(${id})">Save</button>
-      <button onclick="searchContacts()">Cancel</button>
+      <button type="button" onclick="toggleFavorite(${id}, ${favoriteValue})">
+        ${favoriteValue === 1 ? "★" : "☆"}
+      </button>
+    </td>
+    <td><input id="editFirst${id}" value="${escapeAttribute(first)}"></td>
+    <td><input id="editLast${id}" value="${escapeAttribute(last)}"></td>
+    <td><input id="editEmail${id}" value="${escapeAttribute(email)}"></td>
+    <td><input id="editPhone${id}" value="${escapeAttribute(phone)}"></td>
+    <td>
+      <button type="button" onclick="saveEdit(${id})">Save</button>
+      <button type="button" onclick="searchContacts()">Cancel</button>
     </td>
   `;
 }
 
 async function saveEdit(id) {
-  // PHP expects: contactId, userId, firstName, lastName, email, phone
   const payload = {
     contactId: id,
     userId: Number(userId),
@@ -188,25 +270,49 @@ async function saveEdit(id) {
     phone: document.getElementById(`editPhone${id}`).value.trim()
   };
 
-  const res = await fetch("API/UpdateContact.php", {
-    method: "POST",
-    headers: {"Content-Type":"application/json"},
-    body: JSON.stringify(payload)
-  });
+  try {
+    const res = await fetch("API/UpdateContact.php", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(payload)
+    });
 
-  const data = await res.json();
-  if (data.error !== "") alert(data.error);
-  else searchContacts();
+    const data = await res.json();
+
+    if (data.error !== "") {
+      alert(data.error);
+    } else {
+      searchContacts();
+    }
+  } catch (error) {
+    alert("Server error.");
+  }
 }
 
 // ---------- SAFETY ----------
 function escapeHtml(text) {
-  return text
-    ?.replaceAll("&","&amp;")
-    ?.replaceAll("<","&lt;")
-    ?.replaceAll(">","&gt;")
-    ?.replaceAll('"',"&quot;")
-    ?.replaceAll("'","&#039;");
+  if (text === null || text === undefined) {
+    return "";
+  }
+
+  return String(text)
+    .replaceAll("&", "&amp;")
+    .replaceAll("<", "&lt;")
+    .replaceAll(">", "&gt;")
+    .replaceAll('"', "&quot;")
+    .replaceAll("'", "&#039;");
+}
+
+function escapeAttribute(text) {
+  if (text === null || text === undefined) {
+    return "";
+  }
+
+  return String(text)
+    .replaceAll("&", "&amp;")
+    .replaceAll('"', "&quot;")
+    .replaceAll("<", "&lt;")
+    .replaceAll(">", "&gt;");
 }
 
 // Auto load contacts on page open
