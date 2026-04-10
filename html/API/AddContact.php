@@ -1,50 +1,60 @@
 <?php
-	$inData = getRequestInfo();
-	
-	$firstName = $inData["firstName"];
-	$lastName = $inData["lastName"];
-	$phone = $inData["phone"];
-	$email = $inData["email"];
-	$userId = $inData["userId"];
+$inData = getRequestInfo();
 
-	$conn = new mysqli("localhost", "AllAccess", "SmallProject1", "contact_manager");
+$firstName = $inData["firstName"];
+$lastName = $inData["lastName"];
+$phone = $inData["phone"];
+$email = $inData["email"];
+$userId = $inData["userId"];
 
-	if ($conn->connect_error) 
-	{
-		returnWithError( $conn->connect_error );
-	} 
-	else
-	{
-		$stmt = $conn->prepare("INSERT into contacts (UserID,FirstName,LastName,Email,Phone) VALUES(?,?,?,?,?)");
-		$stmt->bind_param("issss", $userId, $firstName, $lastName, $email, $phone);
-		$stmt->execute();
+$conn = new mysqli("localhost", "AllAccess", "SmallProject1", "contact_manager");
 
-		if ($stmt->affected_rows > 0) {
-    		returnWithError("");
-		} else {
-    		returnWithError("Failed to add contact.");
-		}
+if ($conn->connect_error)
+{
+    returnWithError($conn->connect_error);
+}
+else
+{
+    $stmt = $conn->prepare("INSERT INTO contacts (UserID, FirstName, LastName, Email, Phone) VALUES (?, ?, ?, ?, ?)");
+    $stmt->bind_param("issss", $userId, $firstName, $lastName, $email, $phone);
+    $stmt->execute();
 
-		$stmt->close();
-		$conn->close();
-	}
+    if ($stmt->affected_rows > 0)
+    {
+        returnWithSuccess();
+    }
+    else
+    {
+        returnWithError("Failed to add contact.");
+    }
 
-	function getRequestInfo()
-	{
-		return json_decode(file_get_contents('php://input'), true);
-	}
+    $stmt->close();
+    $conn->close();
+}
 
-	function sendResultInfoAsJson( $obj )
-	{
-		header('Content-type: application/json');
-		echo $obj;
-	}
-	
-	function returnWithError( $err )
-	{
-		sendResultInfoAsJson(json_encode([
+function getRequestInfo()
+{
+    return json_decode(file_get_contents('php://input'), true);
+}
+
+function sendResultInfoAsJson($obj)
+{
+    header('Content-type: application/json');
+    echo $obj;
+}
+
+function returnWithError($err)
+{
+    sendResultInfoAsJson(json_encode([
         "error" => $err
     ]));
-	}
-	
+}
+
+function returnWithSuccess()
+{
+    sendResultInfoAsJson(json_encode([
+        "error" => ""
+    ]));
+}
+
 ?>
